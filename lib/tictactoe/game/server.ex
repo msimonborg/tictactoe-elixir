@@ -5,9 +5,11 @@ defmodule TicTacToe.Game.Server do
 
   alias TicTacToe.Game.Board
   
-
+  @doc """
+  Starts the server and initializes the game board as the server state.
+  """
   def init(:ok) do
-    {:ok, _board} = TicTacToe.Game.start_board
+    TicTacToe.Game.start_board
   end
 
   def handle_call(:board, _from, board), do: {:reply, board, board}

@@ -72,7 +72,7 @@ defmodule TicTacToe.Game.Board do
     last_position = board |> history() |> List.last()
     case get(board, last_position) do
       :error -> :error
-      token -> {:ok, last_position, token}
+      token  -> {:ok, last_position, token}
     end
   end
 end
