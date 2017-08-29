@@ -12,6 +12,13 @@ defmodule TicTacToe.Game.Supervisor do
 
   @doc """
   Start a new supervised game.
+
+  ## Examples
+
+      iex> {:ok, game_pid} = TicTacToe.Game.Supervisor.start_game
+      iex> game_pid |> TicTacToe.Game.board() |> TicTacToe.Game.Board.current_state()
+      {[" ", " ", " ", " ", " ", " ", " ", " ", " "], []}
+
   """
   def start_game do
     Supervisor.start_child(__MODULE__, [])
