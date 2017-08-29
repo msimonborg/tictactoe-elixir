@@ -1,9 +1,9 @@
 defmodule TicTacToe.GameTest do
   use ExUnit.Case, async: true
-  doctest TicTacToe.Game
-  
   alias TicTacToe.Game
   alias TicTacToe.Game.Board
+
+  doctest Game
 
   setup do
     {:ok, game} = start_supervised(Game)

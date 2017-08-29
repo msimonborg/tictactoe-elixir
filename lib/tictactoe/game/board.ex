@@ -30,8 +30,27 @@ defmodule TicTacToe.Game.Board do
 
   @doc """
   Returns the board history.
+
+  ## Examples
+
+      iex> {:ok, board_pid} = TicTacToe.Game.Board.start_link([])
+      iex> TicTacToe.Game.Board.history(board_pid)
+      []
+  
   """
   def history(board), do: board |> current_state() |> elem(1)
+
+  @doc """
+  Returns the board positions.
+
+  ## Examples
+
+      iex> {:ok, board_pid} = TicTacToe.Game.Board.start_link([])
+      iex> TicTacToe.Game.Board.positions(board_pid)
+      [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+  
+  """
+  def positions(board), do: board |> current_state |> elem(0)
 
   @doc """
   Gets the value at the given board position.
