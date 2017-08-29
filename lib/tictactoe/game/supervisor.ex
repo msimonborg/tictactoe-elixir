@@ -6,9 +6,7 @@ defmodule TicTacToe.Game.Supervisor do
   use Supervisor
 
   @doc false
-  def start_link(_opts) do
-    Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
-  end
+  def start_link(_opts), do: Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
 
   @doc """
   Start a new supervised game.
@@ -20,9 +18,7 @@ defmodule TicTacToe.Game.Supervisor do
       {[" ", " ", " ", " ", " ", " ", " ", " ", " "], []}
 
   """
-  def start_game do
-    Supervisor.start_child(__MODULE__, [])
-  end
+  def start_game, do: Supervisor.start_child(__MODULE__, [])
 
   @doc false
   def init(:ok) do

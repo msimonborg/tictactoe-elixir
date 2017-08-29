@@ -12,23 +12,17 @@ defmodule TicTacToe.Game do
   
   `:name` is always required.
   """
-  def start_link(opts) do
-    GenServer.start_link(TicTacToe.Game.Server, :ok, opts)
-  end
+  def start_link(opts), do: GenServer.start_link(TicTacToe.Game.Server, :ok, opts)
 
   @doc """
   Gets the game board.
   """
-  def board(game) do
-    GenServer.call(game, :board)
-  end
+  def board(game), do: GenServer.call(game, :board)
 
   @doc """
   Starts a linked game board.
   """
-  def start_board do
-    Board.start_link([])
-  end
+  def start_board, do: Board.start_link([])
 
   @doc """
   Makes a move and returns the board state.
