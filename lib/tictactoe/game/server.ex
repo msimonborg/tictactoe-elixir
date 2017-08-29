@@ -1,0 +1,22 @@
+defmodule TicTacToe.Game.Server do
+  @moduledoc """
+  Game server.
+  """
+
+  alias TicTacToe.Game.Board
+  
+
+  def init(:ok) do
+    {:ok, _board} = TicTacToe.Game.start_board
+  end
+
+  def handle_call(:board, _from, board), do: {:reply, board, board}
+  def handle_call({:move, position, value}, _from, board) do
+    case Board.put(board, position, value) do
+      :ok ->
+        {:reply, Board.current_state(board), board}
+      :error ->
+        {:reply, :error, board}
+    end
+  end
+end

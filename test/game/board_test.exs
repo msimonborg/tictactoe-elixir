@@ -29,4 +29,10 @@ defmodule TicTacToe.Game.BoardTest do
 
     assert Board.history(board) == [1, 9]
   end
+
+  test "returns the last move", %{board: board} do
+    Board.put(board, 1, "X")
+
+    assert Board.last_move(board) == {:ok, 1, "X"}
+  end
 end

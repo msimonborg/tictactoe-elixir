@@ -26,16 +26,12 @@ defmodule TicTacToe.Game.Board do
   @doc """
   Returns the current board state.
   """
-  def current_state(board) do
-    Agent.get(board, &(&1))
-  end
+  def current_state(board), do: Agent.get(board, &(&1))
 
   @doc """
   Returns the board history.
   """
-  def history(board) do
-    Agent.get(board, &(elem(&1, 1)))
-  end
+  def history(board), do: board |> current_state() |> elem(1)
 
   @doc """
   Gets the value at the given board position.
@@ -58,5 +54,25 @@ defmodule TicTacToe.Game.Board do
         List.insert_at(history, -1, position)
       }
     end)
+  end
+
+  @doc """
+  Returns the last move.
+
+  ## Examples
+
+      iex> alias TicTacToe.Game.Board
+      iex> {:ok, board} = Board.start_link([])
+      iex> TicTacToe.Game.Board.put(board, 4, "X")
+      iex> TicTacToe.Game.Board.last_move(board)
+      {:ok, 4, "X"}
+
+  """
+  def last_move(board) do
+    last_position = board |> history() |> List.last()
+    case get(board, last_position) do
+      :error -> :error
+      token -> {:ok, last_position, token}
+    end
   end
 end
