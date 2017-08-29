@@ -15,7 +15,7 @@ defmodule TicTacToe.Game do
   def start_link(opts), do: GenServer.start_link(TicTacToe.Game.Server, :ok, opts)
 
   @doc """
-  Gets the game board.
+  Returns the game board PID.
   """
   def board(game), do: GenServer.call(game, :board)
 
@@ -25,7 +25,19 @@ defmodule TicTacToe.Game do
   def start_board, do: Board.start_link([])
 
   @doc """
-  Makes a move and returns the board state.
+  Makes a move and returns the board state. Does not allow the same player to move twice
+  in a row.
+
+  ## Examples
+
+      iex> {:ok, game_pid} = TicTacToe.Game.start_link([])
+      iex> TicTacToe.Game.move(game_pid, 2, "X")
+      {[" ", "X", " ", " ", " ", " ", " ", " ", " "], [2]}
+      iex> TicTacToe.Game.move(game_pid, 3, "X")
+      :error
+      iex> TicTacToe.Game.move(game_pid, 3, "O")
+      {[" ", "X", "O", " ", " ", " ", " ", " ", " "], [2, 3]}
+  
   """
   def move(game, position, value) do
     case game |> board() |> Board.history() |> length() do
@@ -41,6 +53,24 @@ defmodule TicTacToe.Game do
 
   @doc """
   Returns the current player.
+
+  Returns `:error` if there have been no moves made.
+
+  ## Examples
+
+      iex> {:ok, game_pid} = TicTacToe.Game.start_link([])
+      iex> TicTacToe.Game.current_player(game_pid)
+      :error
+      iex> TicTacToe.Game.move(game_pid, 3, "X")
+      iex> TicTacToe.Game.current_player(game_pid)
+      "O"
+      iex> TicTacToe.Game.move(game_pid, 4, "X")
+      iex> TicTacToe.Game.current_player(game_pid)
+      "O"
+      iex> TicTacToe.Game.move(game_pid, 4, "O")
+      iex> TicTacToe.Game.current_player(game_pid)
+      "X"
+
   """
   def current_player(game) do
     case game |> board() |> Board.last_move() do

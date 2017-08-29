@@ -1,7 +1,9 @@
 defmodule TicTacToe.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
-  @moduledoc false
+  @moduledoc """
+  The game application module.
+  """
 
   use Application
 
