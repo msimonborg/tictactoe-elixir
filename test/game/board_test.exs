@@ -4,7 +4,7 @@ defmodule TicTacToe.Game.BoardTest do
   doctest Board
 
   setup do
-    {:ok, board} = Board.start_link([])
+    {:ok, board} = start_supervised(Board)
     %{board: board}
   end
 
