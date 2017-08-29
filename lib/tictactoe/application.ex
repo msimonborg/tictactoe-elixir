@@ -11,7 +11,7 @@ defmodule TicTacToe.Application do
       # Starts a worker by calling: TicTacToe.Worker.start_link(arg)
       # {TicTacToe.Worker, arg},
       TicTacToe.Game.Supervisor,
-      TicTacToe.Game.BoardSupervisor  
+      TicTacToe.Game.BoardSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

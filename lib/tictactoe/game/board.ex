@@ -46,7 +46,6 @@ defmodule TicTacToe.Game.Board do
     Agent.get(board, &Enum.at(elem(&1, 0), position - 1))
   end
 
-
   @doc """
   Puts the given `value` at the given `board` position.
   """
@@ -54,7 +53,10 @@ defmodule TicTacToe.Game.Board do
   def put(_board, position, _value) when position < 1, do: :error
   def put(board, position, value) when is_integer(position) do
     Agent.update(board, fn {positions, history} ->
-      {List.replace_at(positions, position - 1, value), List.insert_at(history, -1, position)}
+      {
+        List.replace_at(positions, position - 1, value),
+        List.insert_at(history, -1, position)
+      }
     end)
   end
 end

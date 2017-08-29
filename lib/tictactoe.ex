@@ -1,18 +1,5 @@
 defmodule TicTacToe do
   @moduledoc """
-  Documentation for TicTacToe.
+  You know how to play Tic Tac Toe, right?
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> TicTacToe.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
