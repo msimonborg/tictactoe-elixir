@@ -29,9 +29,9 @@ defmodule TicTacToe.Game do
   """
   def move(game, position, value) do
     case game |> board() |> Board.history() |> length() do
-      0 -> 
+      0 ->
         GenServer.call(game, {:move, position, value})
-      _ -> 
+      _ ->
         case current_player(game) do
           ^value -> GenServer.call(game, {:move, position, value})
           _      -> :error
@@ -46,7 +46,7 @@ defmodule TicTacToe.Game do
     case game |> board() |> Board.last_move() do
       {:ok, _position, "X"} -> "O"
       {:ok, _position, "O"} -> "X"
-      :error                -> :error      
+      :error                -> :error
     end
   end
 end
