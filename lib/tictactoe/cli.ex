@@ -18,7 +18,7 @@ defmodule TicTacToe.CLI do
 
   def main(_args) do
     Application.start(:tictactoe)
-    first_player = "Who's going first? (X|O) -> " |> get_input() |> validate_player()    
+    first_player = "Who's going first? [X|O] -> " |> get_input() |> validate_player()    
     play(first_player)        
   end
 
@@ -26,6 +26,10 @@ defmodule TicTacToe.CLI do
     output = result()
     display()
     IO.puts(output)
+    "\nPlay again? [y|n] -> " 
+    |> get_input()
+    |> String.downcase()
+    |> play_again?()
   end
 
   def play(player) do
@@ -35,6 +39,21 @@ defmodule TicTacToe.CLI do
     case Rules.over?(board_positions()) do
       true  -> play(:over)
       false -> game() |> Game.current_player() |> play()
+    end
+  end
+
+  def play_again?(input) do
+    case input do
+      "y" ->
+        GenServer.call(__MODULE__, :new_game)
+        main([])
+      "n" -> 
+        nil
+      _ -> 
+        "\nMust be y or n -> "
+        |> get_input()
+        |> String.downcase()
+        |> play_again?()
     end
   end
 
@@ -51,9 +70,9 @@ defmodule TicTacToe.CLI do
   end
 
   def validate_player(input) do
-    case input do
-      "X" -> input
-      "O" -> input
+    case String.upcase(input) do
+      "X" -> "X"
+      "O" -> "O"
       _   -> "Must be X or O -> " |> get_input() |> validate_player()
     end
   end

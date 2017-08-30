@@ -23,6 +23,8 @@ defmodule TicTacToe.Game.Supervisor do
   """
   def start_game, do: Supervisor.start_child(__MODULE__, [])
 
+  def stop_game(game), do: Supervisor.terminate_child(__MODULE__, game)
+
   @doc false
   def init(:ok) do
     children = [
