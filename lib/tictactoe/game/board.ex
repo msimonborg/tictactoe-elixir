@@ -17,7 +17,7 @@ defmodule TicTacToe.Game.Board do
   def start_link(_opts) do
     Agent.start_link(fn ->
       {
-        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        List.duplicate(" ", 9),
         []
       }
     end)
@@ -67,11 +67,16 @@ defmodule TicTacToe.Game.Board do
   def put(_board, position, _value) when position > 9, do: :error
   def put(_board, position, _value) when position < 1, do: :error
   def put(board, position, value) when is_integer(position) do
-    Agent.update(board, fn {positions, history} ->
-      {
-        List.replace_at(positions, position - 1, value),
-        List.insert_at(history, -1, position)
-      }
+    Agent.update(board, fn {positions, history} = state ->
+      case position_filled?(position, history) do
+        true ->
+          state
+        false ->
+          {
+            List.replace_at(positions, position - 1, value),
+            List.insert_at(history, -1, position)
+          }
+      end
     end)
   end
 
@@ -92,6 +97,15 @@ defmodule TicTacToe.Game.Board do
     case get(board, last_position) do
       :error -> :error
       token  -> {:ok, last_position, token}
+    end
+  end
+
+  defp position_filled?(_position, history) when history == [], do: false
+  defp position_filled?(position, history) do
+    [head | tail] = history
+    case head do
+      ^position -> true
+      _         -> position_filled?(position, tail)
     end
   end
 end

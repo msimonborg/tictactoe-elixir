@@ -1,5 +1,4 @@
 defmodule TicTacToe.CLI do
-  alias TicTacToe.CLI
   alias TicTacToe.Game
   alias TicTacToe.Game.Board
   
@@ -15,18 +14,35 @@ defmodule TicTacToe.CLI do
   end
 
   def main(_args) do
-    Application.start(:tictactoe)
     :observer.start
-    start()
+    Application.start(:tictactoe)
+    first_player = "Who's going first? (X|O) -> " |> get_input() |> validate_player()    
+    play(first_player)        
   end
 
-  def start do
-    input = IO.gets("What's your first move? (X|O) ") |> String.trim
-    Game.move(game(), 1, input)
+  def play(player) do
     display()
+    position = "Select a square, #{player} -> " |> get_input() |> String.to_integer()
+    Game.move(game(), position, player)
+    game() |> Game.current_player() |> play()
   end
 
-  def game, do: GenServer.call(CLI, :game)
+  def validate_player(input) do
+    case input do
+      "X" -> input
+      "O" -> input
+      _   -> "Must be X or O -> " |> get_input() |> validate_player()
+    end
+  end
+
+  def get_input(msg) do
+    IO.puts ""
+    msg
+    |> IO.gets()
+    |> String.trim()
+  end
+
+  def game, do: GenServer.call(__MODULE__, :game)
 
   def board_positions, do: game() |> Game.board() |> Board.positions()
 

@@ -76,7 +76,7 @@ defmodule TicTacToe.Game do
     case game |> board() |> Board.last_move() do
       {:ok, _position, "X"} -> "O"
       {:ok, _position, "O"} -> "X"
-      :error                -> :error
+      _                     -> :error
     end
   end
 end
