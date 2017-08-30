@@ -15,31 +15,9 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
     [2, 5, 8],
     [2, 4, 6]
   ]
-  @corners [0, 2, 6, 8]
-  @sides [1, 3, 5, 7]
-  @center 4
-
-  @doc """
-  Returns the possible winning combinations.
-
-  ## Examples
-
-      iex> TicTacToe.Game.Rules.win_combos()
-      [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 4, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [2, 4, 6]
-      ]
-
-  """
-  def win_combos() do
-    @win_combos
-  end
+  # @corners [0, 2, 6, 8]
+  # @sides [1, 3, 5, 7]
+  # @center 4
 
   @doc """
   Returns a boolean value indicating whether or not the board is full.
@@ -80,7 +58,6 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
   
   """
   def winning_combo(board_positions) do
-    require IEx
     find(@win_combos, nil, fn combo ->
       all?(combo, &(at(board_positions, &1) == "X")) || 
         all?(combo, &(at(board_positions, &1) == "O"))
