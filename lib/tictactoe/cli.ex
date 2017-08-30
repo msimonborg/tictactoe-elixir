@@ -46,10 +46,10 @@ defmodule TicTacToe.CLI do
 
   defp display(index) when is_integer(index), do: Enum.at(board_positions(), index)
   defp display do
-    IO.puts " #{display(0)} | #{display(1)} | #{display(2)} "
+    IO.puts "\n #{display(0)} | #{display(1)} | #{display(2)} "
     IO.puts "-----------"
     IO.puts " #{display(3)} | #{display(4)} | #{display(5)} "
     IO.puts "-----------"
-    IO.puts " #{display(6)} | #{display(7)} | #{display(8)} "
+    IO.puts " #{display(6)} | #{display(7)} | #{display(8)} \r"
   end
 end
