@@ -15,7 +15,10 @@ defmodule TicTacToe.Game.Supervisor do
 
       iex> {:ok, game_pid} = TicTacToe.Game.Supervisor.start_game
       iex> game_pid |> TicTacToe.Game.board() |> TicTacToe.Game.Board.current_state()
-      {[" ", " ", " ", " ", " ", " ", " ", " ", " "], []}
+      %TicTacToe.Game.Board{
+        positions: [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        history: []
+      }
 
   """
   def start_game, do: Supervisor.start_child(__MODULE__, [])

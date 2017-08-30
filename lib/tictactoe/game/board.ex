@@ -5,6 +5,8 @@ defmodule TicTacToe.Game.Board do
 
   use Agent, restart: :temporary
 
+  defstruct positions: List.duplicate(" ", 9), history: []
+
   @doc """
   Starts a new game board, a tuple with two lists. 
   
@@ -15,12 +17,7 @@ defmodule TicTacToe.Game.Board do
   each move was made.
   """
   def start_link(_opts) do
-    Agent.start_link(fn ->
-      {
-        List.duplicate(" ", 9),
-        []
-      }
-    end)
+    Agent.start_link fn -> %TicTacToe.Game.Board{} end
   end
 
   @doc """
@@ -38,7 +35,7 @@ defmodule TicTacToe.Game.Board do
       []
   
   """
-  def history(board), do: board |> current_state() |> elem(1)
+  def history(board), do: board |> current_state() |> Map.get(:history)
 
   @doc """
   Returns the board positions.
@@ -50,7 +47,7 @@ defmodule TicTacToe.Game.Board do
       [" ", " ", " ", " ", " ", " ", " ", " ", " "]
   
   """
-  def positions(board), do: board |> current_state |> elem(0)
+  def positions(board), do: board |> current_state() |> Map.get(:positions)
 
   @doc """
   Gets the value at the given board position.
@@ -58,7 +55,7 @@ defmodule TicTacToe.Game.Board do
   def get(_board, position) when position > 9, do: :error
   def get(_board, position) when position < 1, do: :error
   def get(board, position) when is_integer(position) do
-    Agent.get(board, &Enum.at(elem(&1, 0), position - 1))
+    Enum.at(positions(board), position - 1)
   end
 
   @doc """
@@ -67,14 +64,14 @@ defmodule TicTacToe.Game.Board do
   def put(_board, position, _value) when position > 9, do: :error
   def put(_board, position, _value) when position < 1, do: :error
   def put(board, position, value) when is_integer(position) do
-    Agent.update(board, fn {positions, history} = state ->
+    Agent.update(board, fn %{positions: positions, history: history} = state ->
       case position_filled?(position, history) do
         true ->
           state
         false ->
-          {
-            List.replace_at(positions, position - 1, value),
-            List.insert_at(history, -1, position)
+          %TicTacToe.Game.Board{
+            positions: List.replace_at(positions, position - 1, value),
+            history: List.insert_at(history, -1, position)
           }
       end
     end)

@@ -1,8 +1,12 @@
 defmodule TicTacToe.CLI do
+  @moduledoc """
+  Main CLI interface.
+  """
+
+  use GenServer
+
   alias TicTacToe.Game
   alias TicTacToe.Game.Board
-  
-  use GenServer
 
   @doc """
   Starts the game with the given options.
@@ -50,6 +54,6 @@ defmodule TicTacToe.CLI do
     IO.puts "-----------"
     IO.puts " #{display(3)} | #{display(4)} | #{display(5)} "
     IO.puts "-----------"
-    IO.puts " #{display(6)} | #{display(7)} | #{display(8)} \r"
+    IO.puts " #{display(6)} | #{display(7)} | #{display(8)} "
   end
 end

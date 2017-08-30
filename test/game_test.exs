@@ -12,12 +12,13 @@ defmodule TicTacToe.GameTest do
 
   test "initializes a linked board", %{game: game} do
     board_state = game |> Game.board() |> Board.current_state()
-    assert board_state == {[" ", " ", " ", " ", " ", " ", " ", " ", " "], []}
+    assert board_state == %TicTacToe.Game.Board{}
   end
 
   test "can make a move", %{game: game} do
     board_state = Game.move(game, 4, "X")
-    assert board_state == {[" ", " ", " ", "X", " ", " ", " ", " ", " "], [4]}
+    assert Map.get(board_state, :positions) == [" ", " ", " ", "X", " ", " ", " ", " ", " "]
+    assert Map.get(board_state, :history) == [4]
     assert board_state == game |> Game.board() |> Board.current_state()
   end
 
@@ -30,7 +31,7 @@ defmodule TicTacToe.GameTest do
   end
 
   test "only allows players to move in the correct order", %{game: game} do
-    {positions, history} = Game.move(game, 4, "X")
+    %{positions: positions, history: history} = Game.move(game, 4, "X")
     assert history == [4]
     assert Game.current_player(game) == "O"
 

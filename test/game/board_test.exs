@@ -9,7 +9,7 @@ defmodule TicTacToe.Game.BoardTest do
   end
 
   test "initializes the board state", %{board: board} do
-    assert {[" ", " ", " ", " ", " ", " ", " ", " ", " "], []} == Board.current_state(board)
+    assert %TicTacToe.Game.Board{} == Board.current_state(board)
   end
 
   test "gets a value from the board state", %{board: board} do

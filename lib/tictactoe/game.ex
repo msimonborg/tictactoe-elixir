@@ -8,9 +8,7 @@ defmodule TicTacToe.Game do
   alias TicTacToe.Game.Board
 
   @doc """
-  Starts the game with the given options.
-  
-  `:name` is always required.
+  Starts the game with the given options.  
   """
   def start_link(opts), do: GenServer.start_link(TicTacToe.Game.Server, :ok, opts)
 
@@ -32,12 +30,18 @@ defmodule TicTacToe.Game do
 
       iex> {:ok, game_pid} = TicTacToe.Game.start_link([])
       iex> TicTacToe.Game.move(game_pid, 2, "X")
-      {[" ", "X", " ", " ", " ", " ", " ", " ", " "], [2]}
+      %TicTacToe.Game.Board{
+        positions: [" ", "X", " ", " ", " ", " ", " ", " ", " "],
+        history: [2]
+      }
       iex> TicTacToe.Game.move(game_pid, 3, "X")
       :error
-      iex> TicTacToe.Game.move(game_pid, 3, "O")
-      {[" ", "X", "O", " ", " ", " ", " ", " ", " "], [2, 3]}
-  
+      iex> TicTacToe.Game.move(game_pid, 5, "O")
+      %TicTacToe.Game.Board{
+        positions: [" ", "X", " ", " ", "O", " ", " ", " ", " "],
+        history: [2, 5]
+      }
+
   """
   def move(game, position, value) do
     case game |> board() |> Board.history() |> length() do
