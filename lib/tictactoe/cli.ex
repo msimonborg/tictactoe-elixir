@@ -26,7 +26,7 @@ defmodule TicTacToe.CLI do
     output = result()
     display()
     IO.puts(output)
-    "\nPlay again? [y|n] -> " 
+    "Play again? [y|n] -> " 
     |> get_input()
     |> String.downcase()
     |> play_again?()
@@ -50,7 +50,7 @@ defmodule TicTacToe.CLI do
       "n" -> 
         nil
       _ -> 
-        "\nMust be y or n -> "
+        "Must be y or n -> "
         |> get_input()
         |> String.downcase()
         |> play_again?()
