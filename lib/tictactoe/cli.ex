@@ -6,8 +6,6 @@ defmodule TicTacToe.CLI do
 
   @doc """
   Starts the game with the given options.
-  
-  `:name` is always required.
   """
   def start_link(opts) do
     GenServer.start_link(TicTacToe.CLI.Server, :ok, opts)
@@ -46,11 +44,12 @@ defmodule TicTacToe.CLI do
 
   def board_positions, do: game() |> Game.board() |> Board.positions()
 
+  defp display(index) when is_integer(index), do: Enum.at(board_positions(), index)
   defp display do
-    IO.puts " #{Enum.at(board_positions(), 0)} | #{Enum.at(board_positions(), 1)} | #{Enum.at(board_positions(), 2)} "
+    IO.puts " #{display(0)} | #{display(1)} | #{display(2)} "
     IO.puts "-----------"
-    IO.puts " #{Enum.at(board_positions(), 3)} | #{Enum.at(board_positions(), 4)} | #{Enum.at(board_positions(), 5)} "
+    IO.puts " #{display(3)} | #{display(4)} | #{display(5)} "
     IO.puts "-----------"
-    IO.puts " #{Enum.at(board_positions(), 6)} | #{Enum.at(board_positions(), 7)} | #{Enum.at(board_positions(), 8)} "
+    IO.puts " #{display(6)} | #{display(7)} | #{display(8)} "
   end
 end
