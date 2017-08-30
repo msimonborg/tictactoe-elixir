@@ -46,11 +46,11 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
 
       iex> board_positions = List.duplicate(" ", 9)
       iex> TicTacToe.Game.Rules.winning_combo(board_positions)
-      nil
+      []
 
       iex> board_positions = " " |> List.duplicate(9) |> List.replace_at(4, "X")
       iex> TicTacToe.Game.Rules.winning_combo(board_positions)
-      nil
+      []
 
       iex> board_positions = [" ", " ", "X", "O", "X", "O", "X", " ", " "]
       iex> TicTacToe.Game.Rules.winning_combo(board_positions)
@@ -58,8 +58,8 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
   
   """
   def winning_combo(board_positions) do
-    find(@win_combos, nil, fn combo ->
-      all?(combo, &(at(board_positions, &1) == "X")) || 
+    find(@win_combos, [], fn combo ->
+      all?(combo, &(at(board_positions, &1) == "X")) ||
         all?(combo, &(at(board_positions, &1) == "O"))
     end)
   end
@@ -82,7 +82,12 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
       true
   
   """
-  def won?(board_positions), do: !!winning_combo(board_positions)
+  def won?(board_positions) do
+    case winning_combo(board_positions) do
+      [_, _, _] -> true
+      _         -> false
+    end
+  end
 
   @doc """
   Returns a `boolean` indicating if the game is a draw.

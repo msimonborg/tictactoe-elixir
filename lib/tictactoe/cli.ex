@@ -18,15 +18,15 @@ defmodule TicTacToe.CLI do
 
   def main(_args) do
     Application.start(:tictactoe)
-    first_player = "Who's going first? [X|O] -> " |> get_input() |> validate_player()    
-    play(first_player)        
+    first_player = "Who's going first? [X|O] -> " |> get_input() |> validate_player()
+    play(first_player)
   end
 
   def play(:over) do
     output = result()
     display()
     IO.puts(output)
-    "Play again? [y|n] -> " 
+    "Play again? [y|n] -> "
     |> get_input()
     |> String.downcase()
     |> play_again?()
@@ -47,9 +47,9 @@ defmodule TicTacToe.CLI do
       "y" ->
         GenServer.call(__MODULE__, :new_game)
         main([])
-      "n" -> 
+      "n" ->
         nil
-      _ -> 
+      _ ->
         "Must be y or n -> "
         |> get_input()
         |> String.downcase()
