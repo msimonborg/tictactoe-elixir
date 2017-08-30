@@ -7,6 +7,7 @@ defmodule TicTacToe.CLI do
 
   alias TicTacToe.Game
   alias TicTacToe.Game.Board
+  alias TicTacToe.Game.Rules
 
   @doc """
   Starts the game with the given options.
@@ -16,17 +17,37 @@ defmodule TicTacToe.CLI do
   end
 
   def main(_args) do
-    :observer.start
     Application.start(:tictactoe)
     first_player = "Who's going first? (X|O) -> " |> get_input() |> validate_player()    
     play(first_player)        
+  end
+
+  def play(:over) do
+    output = result()
+    display()
+    IO.puts(output)
   end
 
   def play(player) do
     display()
     position = "Select a square, #{player} -> " |> get_input() |> String.to_integer()
     Game.move(game(), position, player)
-    game() |> Game.current_player() |> play()
+    case Rules.over?(board_positions()) do
+      true  -> play(:over)
+      false -> game() |> Game.current_player() |> play()
+    end
+  end
+
+  def result do
+    case Rules.won?(board_positions()) do
+      true ->
+        case Game.current_player(game()) do
+          "X" -> "\nO wins!"
+          "O" -> "\nX wins!"
+        end
+      false ->
+        "\nCat's game!"
+    end
   end
 
   def validate_player(input) do
