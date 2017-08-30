@@ -82,8 +82,7 @@ defmodule TicTacToe.Game.Board do
 
   ## Examples
 
-      iex> alias TicTacToe.Game.Board
-      iex> {:ok, board} = Board.start_link([])
+      iex> {:ok, board} = TicTacToe.Game.Board.start_link([])
       iex> TicTacToe.Game.Board.put(board, 4, "X")
       iex> TicTacToe.Game.Board.last_move(board)
       {:ok, 4, "X"}
@@ -98,8 +97,7 @@ defmodule TicTacToe.Game.Board do
   end
 
   defp position_filled?(_position, history) when history == [], do: false
-  defp position_filled?(position, history) do
-    [head | tail] = history
+  defp position_filled?(position, [head | tail] = _history) do
     case head do
       ^position -> true
       _         -> position_filled?(position, tail)
