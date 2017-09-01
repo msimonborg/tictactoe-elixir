@@ -3,6 +3,8 @@ defmodule TicTacToe.Game.Rules do
 Defines the game rules.
 """
 
+alias TicTacToe.Game.Board
+
 import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
 
   @win_combos [
@@ -62,6 +64,19 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
       all?(combo, &(at(board_positions, &1) == "X")) ||
         all?(combo, &(at(board_positions, &1) == "O"))
     end)
+  end
+
+  def winner(%{} = game_state), do: game_state |> Board.positions() |> winner()
+  def winner(board_positions) when is_list(board_positions) do
+    case over?(board_positions) do
+      {:ok, :won} ->
+        [elem, _, _] = winning_combo(board_positions)
+        Enum.at(board_positions, elem)
+      {:ok, :draw} ->
+        :draw
+      {:ok, false} ->
+        :error
+    end
   end
 
   @doc """
@@ -132,16 +147,25 @@ import Enum, only: [all?: 2, find: 3, at: 2, any?: 2]
 
       iex> pos = [" ", " ", "X", "O", "X", "O", "X", " ", " "]
       iex> TicTacToe.Game.Rules.over?(pos)
-      true
+      {:ok, :won}
 
       iex> pos = ["X", "O", "X", "O", "X", "O", "X", "O", "X"]
       iex> TicTacToe.Game.Rules.over?(pos)
-      true
+      {:ok, :won}
 
       iex> pos = ["X", "X", "O", "O", "O", "X", "X", "O", "X"]
       iex> TicTacToe.Game.Rules.over?(pos)
-      true
+      {:ok, :draw}
   
   """
-  def over?(board_positions), do: draw?(board_positions) || won?(board_positions)
+  def over?(board_positions) do
+    cond do
+      draw?(board_positions) ->
+        {:ok, :draw}
+      won?(board_positions) ->
+        {:ok, :won}
+      true ->
+        false
+    end
+  end
 end

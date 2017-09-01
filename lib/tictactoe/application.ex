@@ -10,7 +10,8 @@ defmodule TicTacToe.Application do
   def start(_type, _args) do
     children = [
       TicTacToe.Game.Supervisor,
-      TicTacToe.CLI.Supervisor
+      TicTacToe.CLI.Supervisor,
+      {Task.Supervisor, name: TicTacToe.SimulationSupervisor}
     ]
 
     opts = [strategy: :one_for_one, name: TicTacToe.Application]

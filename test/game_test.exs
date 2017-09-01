@@ -15,7 +15,7 @@ defmodule TicTacToe.GameTest do
     assert board_state == %TicTacToe.Game.Board{}
   end
 
-  test "can make a move", %{game: game} do
+  test "makes a move and returns the board state", %{game: game} do
     board_state = Game.move(game, 4, "X")
     assert Map.get(board_state, :positions) == [" ", " ", " ", "X", " ", " ", " ", " ", " "]
     assert Map.get(board_state, :history) == [4]
@@ -35,7 +35,7 @@ defmodule TicTacToe.GameTest do
     assert history == [4]
     assert Game.current_player(game) == "O"
 
-    assert Game.move(game, 5, "X") == :error
+    assert Game.move(game, 5, "X") == {:error, "play out of turn"}
     assert Enum.at(positions, 5) == " "
   end
 end

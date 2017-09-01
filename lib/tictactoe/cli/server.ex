@@ -3,6 +3,8 @@ defmodule TicTacToe.CLI.Server do
   CLI server.
   """
 
+  use GenServer
+
   # alias TicTacToe.Game.Board
   alias TicTacToe.Game
 

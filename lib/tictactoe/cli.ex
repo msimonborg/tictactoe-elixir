@@ -23,9 +23,8 @@ defmodule TicTacToe.CLI do
   end
 
   def play(:over) do
-    output = result()
     display()
-    IO.puts(output)
+    IO.puts(result())
     "Play again? [y|n] -> "
     |> get_input()
     |> String.downcase()
@@ -37,7 +36,7 @@ defmodule TicTacToe.CLI do
     position = "Select a square, #{player} -> " |> get_input() |> String.to_integer()
     Game.move(game(), position, player)
     case Rules.over?(board_positions()) do
-      true  -> play(:over)
+      {:ok, _reason} -> play(:over)
       false -> game() |> Game.current_player() |> play()
     end
   end

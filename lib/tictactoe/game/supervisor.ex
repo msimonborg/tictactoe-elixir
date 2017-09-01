@@ -3,7 +3,7 @@ defmodule TicTacToe.Game.Supervisor do
   Supervises the game processes
   """
 
-  use Supervisor
+  use Supervisor, restart: :permanent
 
   @doc false
   def start_link(_opts), do: Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)

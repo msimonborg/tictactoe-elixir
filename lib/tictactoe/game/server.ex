@@ -3,6 +3,8 @@ defmodule TicTacToe.Game.Server do
   Game server.
   """
 
+  use GenServer, restart: :temporary  
+
   alias TicTacToe.Game.Board
   alias TicTacToe.Game
 
@@ -16,8 +18,8 @@ defmodule TicTacToe.Game.Server do
     case Board.put(board, position, value) do
       :ok ->
         {:reply, Board.current_state(board), board}
-      :error ->
-        {:reply, :error, board}
+      any ->
+        {:reply, any, board}
     end
   end
 end
